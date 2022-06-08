@@ -14,14 +14,16 @@ var messages = [{
 }]
 
 io.on('connection', function (socket) {
-    console.log(`Client ${socket.handshake.address} is connected`)
+    const CLIENT_ADDRESS = socket.handshake.address
+    
+    console.log(`Client ${CLIENT_ADDRESS} is connected`)
 
     socket.on('disconnect', () => {
-        console.log(`Client ${socket.handshake.address} is disconnected`)
+        console.log(`Client ${CLIENT_ADDRESS} is disconnected`)
     })
 
     socket.on('chat message', (msg) => {
-        console.log(`message: ${msg}`)
+        console.log(`${CLIENT_ADDRESS} says: ${msg}`)
         io.emit('chat message', msg)
     })
 
