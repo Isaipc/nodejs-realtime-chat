@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
 
     socket.on('chat message', (msg) => {
         console.log(`${CLIENT_ADDRESS} says: ${msg}`)
-        io.emit('chat message', msg)
+        socket.broadcast.emit('chat message', msg)
     })
     
     socket.on('nickname', (nickname) => {

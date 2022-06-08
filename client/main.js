@@ -1,6 +1,3 @@
-const SOCKET_MSG = 0
-const CHAT_MSG = 1
-
 var socket = io()
 var form = document.getElementById('form')
 var input = document.getElementById('input')
@@ -22,15 +19,16 @@ form.addEventListener('submit', function (e) {
 
     if (input.value) {
         socket.emit('chat message', input.value)
+        renderMessage(input.value, 'chat')
         input.value = ''
     }
 })
 
 socket.on('socket message', function (data) {
-    renderMessage(data, SOCKET_MSG)
+    renderMessage(data, 'socket')
 })
 socket.on('chat message', function (data) {
-    renderMessage(data, CHAT_MSG)
+    renderMessage(data, 'chat')
 })
 
 // Functions
@@ -38,10 +36,20 @@ function renderMessage(data, type) {
     var item = document.createElement('div')
     var msg = document.createElement('p')
 
-    item.classList.add(type == SOCKET_MSG ? 'socket-message' : 'chat-message')
+    item.classList.add(getClass(type))
     msg.textContent = data
     item.appendChild(msg)
 
     messages.appendChild(item)
     window.scrollTo(0, document.body.scrollHeight)
+}
+
+function getClass(type) {
+    const classTypes = {
+        socket: 'socket-message',
+        chat: 'chat-message',
+        emitter: 'emitter-message'
+    }
+
+    return classTypes[type] ?? 'class not found'
 }
