@@ -14,11 +14,6 @@ var messageId = 0
 var messages = [
     {
         id: ++messageId,
-        text: 'Welcome',
-        nickname: 'Chatbot'
-    },
-    {
-        id: ++messageId,
         text: 'This is a test',
         nickname: 'Chatbot'
     },
