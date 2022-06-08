@@ -6,8 +6,17 @@ var form = document.getElementById('form')
 var input = document.getElementById('input')
 var messages = document.getElementById('messages')
 
+var nickname = prompt('Please give us a nickname')
+if (nickname === null || nickname === '')
+    nickname = generateName()
+
+socket.emit('nickname', nickname)
+document.getElementById('nickname').textContent = nickname
+
+
 input.focus()
 
+// Events
 form.addEventListener('submit', function (e) {
     e.preventDefault()
 
@@ -24,6 +33,7 @@ socket.on('chat message', function (data) {
     renderMessage(data, CHAT_MSG)
 })
 
+// Functions
 function renderMessage(data, type) {
     var item = document.createElement('div')
     var msg = document.createElement('p')

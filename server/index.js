@@ -15,10 +15,9 @@ var messages = [{
 
 io.on('connection', function (socket) {
     const CLIENT_ADDRESS = socket.handshake.address
-    
-    console.log(`Client ${CLIENT_ADDRESS} is connected`)
-    socket.emit('socket message', 'a new user is connected')
 
+    console.log(`Client ${CLIENT_ADDRESS} is connected`)
+    
     socket.on('disconnect', () => {
         console.log(`Client ${CLIENT_ADDRESS} is disconnected`)
     })
@@ -26,6 +25,11 @@ io.on('connection', function (socket) {
     socket.on('chat message', (msg) => {
         console.log(`${CLIENT_ADDRESS} says: ${msg}`)
         io.emit('chat message', msg)
+    })
+    
+    socket.on('nickname', (nickname) => {
+        console.log(`Client ${CLIENT_ADDRESS} now has a nickname: ${nickname}`)
+        io.emit('socket message', `${nickname} is connected`)
     })
 
 })
