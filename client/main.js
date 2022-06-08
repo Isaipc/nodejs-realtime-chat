@@ -22,6 +22,8 @@ var form = document.getElementById('form')
 var input = document.getElementById('input')
 var messages = document.getElementById('messages')
 
+input.focus()
+
 form.addEventListener('submit', function (e) {
     e.preventDefault()
 
