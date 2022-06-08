@@ -58,8 +58,7 @@ body {
 
 .socket-message {
     align-self: center;
-    color: #fff;
-    font-style: italic;
+    color: #ccc;
 }
 
 .chat-message {
