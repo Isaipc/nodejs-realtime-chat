@@ -24,7 +24,7 @@ form.addEventListener('submit', function (e) {
         }
 
         socket.emit('chat message', data)
-        renderMessage(data, 'chat')
+        renderMessage(data, 'emitter')
         input.value = ''
     }
 })
@@ -38,12 +38,10 @@ socket.on('chat message', function (data) {
 
 // Functions
 function renderMessage(data, type) {
-    var item = document.createElement('div')
-    var msg = document.createElement('p')
+    var item = document.createElement('p')
 
     item.classList.add(getClass(type))
-    msg.textContent = data.text
-    item.appendChild(msg)
+    item.textContent = data.text
 
     messages.appendChild(item)
     window.scrollTo(0, document.body.scrollHeight)
