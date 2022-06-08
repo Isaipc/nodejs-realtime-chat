@@ -7,22 +7,38 @@ const PORT = process.env.PORT || 5000
 
 app.use(express.static('client'))
 
-var messages = [{
-    id: 1,
-    text: 'Bienvenido',
-    nickname: 'Chatbot'
-}]
-
 var clients = []
 var clientId = 0
 
-var messages = []
 var messageId = 0
+var messages = [
+    {
+        id: ++messageId,
+        text: 'Welcome',
+        nickname: 'Chatbot'
+    },
+    {
+        id: ++messageId,
+        text: 'This is a test',
+        nickname: 'Chatbot'
+    },
+    {
+        id: ++messageId,
+        text: 'This is another test',
+        nickname: 'Chatbot'
+    }
+]
+
 
 io.on('connection', function (socket) {
     const CLIENT_ADDRESS = socket.handshake.address
 
     console.log(`Client ${CLIENT_ADDRESS} is connected`)
+
+    messages.forEach(msg => {
+        console.log(msg)
+        io.emit('chat message', msg)
+    });
 
     socket.on('disconnect', () => {
         console.log(`Client ${CLIENT_ADDRESS} is disconnected`)
@@ -52,7 +68,6 @@ io.on('connection', function (socket) {
 
         const data = {
             text: `${nickname} is connected`,
-            nickname: 'server'
         }
 
         io.emit('socket message', data)
