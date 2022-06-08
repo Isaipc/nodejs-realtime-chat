@@ -38,12 +38,19 @@ socket.on('chat message', function (data) {
 
 // Functions
 function renderMessage(data, type) {
-    var item = document.createElement('p')
+    var containerEl = document.createElement('div')
+    var nicknameEl = document.createElement('p')
+    var textEl = document.createElement('p')
 
-    item.classList.add(getClass(type))
-    item.textContent = data.text
+    containerEl.classList.add(getClass(type))
+    nicknameEl.textContent = data.nickname
+    textEl.textContent = data.text
 
-    messages.appendChild(item)
+    if (type == 'chat')
+        containerEl.appendChild(nicknameEl)
+    containerEl.appendChild(textEl)
+    messages.appendChild(containerEl)
+
     window.scrollTo(0, document.body.scrollHeight)
 }
 
