@@ -49,7 +49,13 @@ body {
     background-color: #444;
 }
 
-.message {
+.socket-message {
+    color: #fff;
+    text-align: center;
+    font-style: italic;
+}
+
+.chat-message {
     background-color: #eee;
     color: #000;
     border-radius: 1rem;

@@ -17,6 +17,7 @@ io.on('connection', function (socket) {
     const CLIENT_ADDRESS = socket.handshake.address
     
     console.log(`Client ${CLIENT_ADDRESS} is connected`)
+    socket.emit('socket message', 'a new user is connected')
 
     socket.on('disconnect', () => {
         console.log(`Client ${CLIENT_ADDRESS} is disconnected`)
@@ -27,7 +28,6 @@ io.on('connection', function (socket) {
         io.emit('chat message', msg)
     })
 
-    socket.emit('messages', messages)
 })
 
 server.listen(PORT, () => {
