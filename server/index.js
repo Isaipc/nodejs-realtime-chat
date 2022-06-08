@@ -20,6 +20,7 @@ io.on('connection', function (socket) {
     
     socket.on('disconnect', () => {
         console.log(`Client ${CLIENT_ADDRESS} is disconnected`)
+        io.emit('socket message', `A user is disconnected`)
     })
 
     socket.on('chat message', (msg) => {
