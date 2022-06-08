@@ -3,10 +3,34 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
-app.get('/home', function (req, res) {
-    res.status(200).send('Hello express')
+const port = 3000
+app.use(express.static('client'))
+
+app.get('/', (req, res) => {
+    res.send('Hello express')
 })
 
-server.listen(9090, function(){
-    console.log('It just works :)')
+var messages = [{
+    id: 1,
+    text: 'Bienvenido',
+    nickname: 'Chatbot'
+}]
+
+io.on('connection', function (socket) {
+    console.log(`Client ${socket.handshake.address} is connected`)
+
+    socket.on('disconnect', () => {
+        console.log(`is disconnected`)
+    })
+
+    socket.on('chat message', (msg) => {
+        console.log(`message: ${msg}`)
+        io.emit('chat message', msg)
+    })
+
+    socket.emit('messages', messages)
+})
+
+server.listen(port, () => {
+    console.log(`Listening on port :${port}`)
 })
