@@ -17,7 +17,7 @@ io.on('connection', function (socket) {
     console.log(`Client ${socket.handshake.address} is connected`)
 
     socket.on('disconnect', () => {
-        console.log(`is disconnected`)
+        console.log(`Client ${socket.handshake.address} is disconnected`)
     })
 
     socket.on('chat message', (msg) => {
