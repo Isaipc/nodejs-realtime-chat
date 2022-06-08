@@ -3,12 +3,9 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
-const port = 5000
-app.use(express.static('client'))
+const PORT = process.env.PORT || 5000
 
-app.get('/', (req, res) => {
-    res.send('Hello express')
-})
+app.use(express.static('client'))
 
 var messages = [{
     id: 1,
@@ -31,6 +28,6 @@ io.on('connection', function (socket) {
     socket.emit('messages', messages)
 })
 
-server.listen(port, () => {
-    console.log(`Listening on port :${port}`)
+server.listen(PORT, () => {
+    console.log(`Listening on port :${PORT}`)
 })
