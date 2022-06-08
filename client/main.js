@@ -2,6 +2,8 @@ var socket = io()
 var form = document.getElementById('form')
 var input = document.getElementById('input')
 var messages = document.getElementById('messages')
+var isTyping = document.getElementById('clientIsTyping')
+var timeout;
 
 var nickname = prompt('Please give us a nickname')
 if (nickname === null || nickname === '')
@@ -13,7 +15,7 @@ document.getElementById('nickname').textContent = nickname
 
 input.focus()
 
-// Events
+// EVENTS
 form.addEventListener('submit', function (e) {
     e.preventDefault()
 
@@ -29,14 +31,26 @@ form.addEventListener('submit', function (e) {
     }
 })
 
-socket.on('socket message', function (data) {
-    renderMessage(data, 'socket')
-})
-socket.on('chat message', function (data) {
-    renderMessage(data, 'chat')
+input.addEventListener('keydown', function () {
+    socket.emit('typing', { nickname: nickname })
 })
 
+input.addEventListener('keyup', function () {
+    isTyping.textContent = ''
+    socket.emit('typing', {})
+})
+
+// SOCKET.IO EVENTS
+socket.on('socket message', (data) => renderMessage(data, 'socket'))
+socket.on('chat message', (data) => renderMessage(data, 'chat'))
+
+socket.on('client is typing', (data) =>  showWhoIsTyping(data))
+
 // Functions
+function showWhoIsTyping(data) {
+    isTyping.textContent = data.nickname ? `${data.nickname} is typing ... ` : ''
+}
+
 function renderMessage(data, type) {
     var containerEl = document.createElement('div')
     var nicknameEl = document.createElement('p')
@@ -58,7 +72,7 @@ function getClass(type) {
     const classTypes = {
         socket: 'socket-message',
         chat: 'chat-message',
-        emitter: 'emitter-message'
+        emitter: 'emitter-message',
     }
 
     return classTypes[type] ?? 'class not found'

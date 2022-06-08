@@ -81,6 +81,11 @@ io.on('connection', function (socket) {
         console.log(clients)
     })
 
+    socket.on('typing', (data) => {
+        console.log(`Client ${data.nickname} is typing`)
+        socket.broadcast.emit('client is typing', data)
+    })
+
 })
 
 server.listen(PORT, () => {

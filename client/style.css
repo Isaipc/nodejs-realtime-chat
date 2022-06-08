@@ -83,6 +83,12 @@ body {
     padding-top: 6.5rem;
 }
 
+#clientIsTyping {
+    height: 1.5rem;
+    color: #99f;
+    padding-left: 2rem;
+}
+
 .socket-message {
     align-self: center;
     color: #ccc;
