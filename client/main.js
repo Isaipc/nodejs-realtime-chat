@@ -18,8 +18,13 @@ form.addEventListener('submit', function (e) {
     e.preventDefault()
 
     if (input.value) {
-        socket.emit('chat message', input.value)
-        renderMessage(input.value, 'chat')
+        const data = {
+            text: input.value,
+            nickname: nickname
+        }
+
+        socket.emit('chat message', data)
+        renderMessage(data, 'chat')
         input.value = ''
     }
 })
@@ -37,7 +42,7 @@ function renderMessage(data, type) {
     var msg = document.createElement('p')
 
     item.classList.add(getClass(type))
-    msg.textContent = data
+    msg.textContent = data.text
     item.appendChild(msg)
 
     messages.appendChild(item)

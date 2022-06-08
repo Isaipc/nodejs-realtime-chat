@@ -13,24 +13,51 @@ var messages = [{
     nickname: 'Chatbot'
 }]
 
+var clients = []
+var clientId = 0
+
+var messages = []
+var messageId = 0
+
 io.on('connection', function (socket) {
     const CLIENT_ADDRESS = socket.handshake.address
 
     console.log(`Client ${CLIENT_ADDRESS} is connected`)
-    
+
     socket.on('disconnect', () => {
         console.log(`Client ${CLIENT_ADDRESS} is disconnected`)
-        io.emit('socket message', `A user is disconnected`)
+
+        const data = {
+            text: `A user is disconnected`
+        }
+
+        socket.broadcast.emit('socket message', data)
     })
 
-    socket.on('chat message', (msg) => {
-        console.log(`${CLIENT_ADDRESS} says: ${msg}`)
-        socket.broadcast.emit('chat message', msg)
+    socket.on('chat message', (data) => {
+        messages.push({
+            id: ++messageId,
+            text: data.text,
+            nickname: data.nickname
+        })
+        console.log(messages)
+
+        console.log(`${CLIENT_ADDRESS} says: ${data.text}`)
+        socket.broadcast.emit('chat message', data)
+
     })
-    
+
     socket.on('nickname', (nickname) => {
         console.log(`Client ${CLIENT_ADDRESS} now has a nickname: ${nickname}`)
         io.emit('socket message', `${nickname} is connected`)
+
+        clients.push({
+            id: ++clientId,
+            address: CLIENT_ADDRESS,
+            nickname: nickname
+        })
+
+        console.log(clients)
     })
 
 })
