@@ -49,7 +49,13 @@ io.on('connection', function (socket) {
 
     socket.on('nickname', (nickname) => {
         console.log(`Client ${CLIENT_ADDRESS} now has a nickname: ${nickname}`)
-        io.emit('socket message', `${nickname} is connected`)
+
+        const data = {
+            text: `${nickname} is connected`,
+            nickname: 'server'
+        }
+
+        io.emit('socket message', data)
 
         clients.push({
             id: ++clientId,
